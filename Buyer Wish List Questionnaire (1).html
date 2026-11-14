@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Home Buying Discovery with Emiliano</title>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              50: '#f0f7ff',
+              100: '#e0effe',
+              500: '#0284c7',
+              600: '#0369a1',
+              800: '#075985',
+              900: '#0f172a',
+            }
+          },
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background-color: #f8fafc;
+    }
+    .chip-btn.selected {
+      background-color: #0f172a !important;
+      color: #ffffff !important;
+      border-color: #0f172a !important;
+      box-shadow: 0 4px 12px rgba(15, 23, 42, 0.15);
+    }
+    .fade-in {
+      animation: fadeIn 0.3s ease-out forwards;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .custom-scrollbar::-webkit-scrollbar {
+      width: 6px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+      background-color: #cbd5e1;
+      border-radius: 4px;
+    }
+  </style>
+</head>
+<body class="min-h-screen text-slate-800 flex flex-col justify-between">
+
+  <!-- Header -->
+  <header class="bg-white border-b border-slate-200 sticky top-0 z-30 shadow-sm">
+    <div class="max-w-3xl mx-auto px-4 py-3.5 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl bg-slate-900 flex items-center justify-center text-white shadow-md">
+          <i class="fa-solid fa-house-chimney-user text-lg text-brand-500"></i>
+        </div>
+        <div>
+          <h1 class="font-bold text-slate-900 text-base sm:text-lg leading-tight">Home Buying Discovery</h1>
+          <p class="text-xs text-slate-500 font-medium">with Emiliano</p>
+        </div>
+      </div>
+      <div class="text-xs font-bold text-slate-400 uppercase tracking-wider bg-slate-100 px-3 py-1.5 rounded-full border border-slate-200">
+        Step <span id="step-num" class="text-slate-900 font-extrabold">1</span> of 8
+      </div>
+    </div>
+    <!-- Progress Bar -->
+    <div class="w-full bg-slate-100 h-1.5">
+      <div id="progress-bar" class="bg-gradient-to-r from-brand-500 to-slate-900 h-full w-[12.5%] transition-all duration-500 ease-out"></div>
+    </div>
+  </header>
+
+  <!-- Main Content Container -->
+  <main class="max-w-2xl w-full mx-auto px-4 py-6 flex-grow">
+    
+    <!-- Questionnaire Form Card -->
+    <div id="formCard" class="bg-white rounded-2xl shadow-xl shadow-slate-200/50 border border-slate-200 p-5 sm:p-8">
+      <form id="discoveryForm" onsubmit="return false;">
+        
+        <!-- STEP 1: Basic Details -->
+        <div id="step1" class="step-content fade-in space-y-5">
+          <div class="border-b border-slate-100 pb-3">
+            <h2 class="text-xl font-bold text-slate-900">Basic Details</h2>
+            <p class="text-xs sm:text-sm text-slate-500 mt-0.5">Tell me how and where to send your curated property updates.</p>
+          </div>
+
+          <div>
+            <label class="block text-xs sm:text-sm font-semibold text-slate-700 mb-1" for="buyer_name">Full Name <span class="text-rose-500">*</span></label>
+            <input type="text" id="buyer_name" required placeholder="e.g., Alex & Jordan Smith" 
+              class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-slate-900 text-sm">
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-xs sm:text-sm font-semibold text-slate-700 mb-1" for="buyer_phone">Best Phone Number <span class="text-rose-500">*</span></label>
+              <input type="tel" id="buyer_phone" required placeholder="(555) 000-0000" 
+                class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-slate-900 text-sm">
+            </div>
+
+            <div>
+              <label class="block text-xs sm:text-sm font-semibold text-slate-700 mb-1" for="buyer_email">Best Email Address <span class="text-rose-500">*</span></label>
+              <input type="email" id="buyer_email" required placeholder="alex@example.com" 
+                class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-slate-900 text-sm">
+            </div>
+          </div>
+
+          <div>
+            <label class="block text-xs sm:text-sm font-semibold text-slate-700 mb-1" for="buyer_bio">Tell Me A Bit About Yourself...</label>
+            <p class="text-[11px] text-slate-400 mb-1.5">(Share a little about your family, pets, work, hobbies, or what brings you to look for a home...)</p>
+            <textarea id="buyer_bio" rows="4" placeholder="e.g., We are a family of four moving to San Diego. We have two dogs, work in tech/healthcare, and love spending weekends outdoors..." 
+              class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-slate-900 text-xs sm:text-sm"></textarea>
+          </div>
+        </div>
+
+        <!-- STEP 2: Timeline & Situation -->
+        <div id="step2" class="step-content hidden fade-in space-y-5">
+          <div class="border-b border-slate-100 pb-3">
+            <h2 class="text-xl font-bold text-slate-900">Timeline & Situation</h2>
+            <p class="text-xs sm:text-sm text-slate-500 mt-0.5">Help me understand your moving dynamics and financial setup.</p>
+          </div>
+
+          <div>
+            <label class="block text-xs sm:text-sm font-semibold text-slate-700 mb-1" for="timeline">Ideal Purchase Timeline</label>
+            <select id="timeline" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white text-sm">
+              <option value="ASAP (0-30 days)">ASAP (0–30 days)</option>
+              <option value="1-3 months" selected>1–3 months</option>
+              <option value="3-6 months">3–6 months</option>
+              <option value="6+ months / Just Browsing">6+ months / Just Browsing</option>
+            </select>
+          </div>
+
+          <div>
+            <label class="block text-xs sm:text-sm font-semibold text-slate-700 mb-1" for="housing_status">Are you currently renting or owning?</label>
+            <select id="housing_status" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white text-sm">
+              <option value="Currently Renting">Currently Renting</option>
+              <option value="Currently Own (No need to sell)">Currently Own (No need to sell)</option>
+              <option value="Currently Own (Need to sell before buying)">Currently Own (Need to sell before buying)</option>
+            </select>
+          </div>
+
+          <div>
+            <label class="block text-xs sm:text-sm font-semibold text-slate-700 mb-1" for="lease_exp">If renting, when does your lease expire?</label>
+            <input type="text" id="lease_exp" placeholder="e.g., Month-to-month / Aug 2026" 
+              class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white text-sm">
+          </div>
+
+          <div>
+            <label class="block text-xs sm:text-sm font-semibold text-slate-700 mb-1" for="lender_status">Have you spoken with a lender yet?</label>
+            <select id="lender_status" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white text-sm">
+              <option value="Yes - Pre-Approved">Yes - Pre-Approved</option>
+              <option value="Yes - Working on pre-approval">Yes - Working on pre-approval</option>
+              <option value="No - Need a lender recommendation">No - Need a lender recommendation</option>
+              <option value="Paying All-Cash">Paying All-Cash</option>
+            </select>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-xs sm:text-sm font-semibold text-slate-700 mb-1" for="monthly_budget">Comfortable Monthly Payment Range ($)</label>
+              <input type="text" id="monthly_budget" placeholder="e.g., $3,000 - $3,800/mo" 
+                class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white text-sm">
+            </div>
+
+            <div>
+              <label class="block text-xs sm:text-sm font-semibold text-slate-700 mb-1" for="price_range">Ideal Price Range ($)</label>
+              <input type="text" id="price_range" placeholder="e.g., $650k - $800k" 
+                class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white text-sm">
+            </div>
+          </div>
+        </div>
+
+        <!-- STEP 3: Location & HOA -->
+        <div id="step3" class="step-content hidden fade-in space-y-5">
+          <div class="border-b border-slate-100 pb-3">
+            <h2 class="text-xl font-bold text-slate-900">Location & HOA Preferences</h2>
+            <p class="text-xs sm:text-sm text-slate-500 mt-0.5">Tell me about the areas that fit your ideal lifestyle.</p>
+          </div>
+
+          <div>
+            <label class="block text-xs sm:text-sm font-semibold text-slate-700 mb-1" for="target_locations">Top 3 target neighborhoods / cities</label>
+            <p class="text-[11px] text-slate-400 mb-1.5">(e.g., North Park, Pacific Beach, Carmel Valley, Clairemont)</p>
+            <textarea id="target_locations" rows="3" placeholder="e.g., 1. North Park&#10;2. Pacific Beach&#10;3. Carmel Valley" 
+              class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white text-xs sm:text-sm"></textarea>
+          </div>
+
+          <div>
+            <label class="block text-xs sm:text-sm font-semibold text-slate-700 mb-1" for="location_dealbreakers">Location dealbreakers to avoid?</label>
+            <input type="text" id="location_dealbreakers" placeholder="e.g., Busy main streets, flight paths, high flood zones" 
+              class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white text-sm">
+          </div>
+
+          <div>
+            <label class="block text-xs sm:text-sm font-semibold text-slate-700 mb-1" for="hoa_preference">Max Acceptable Monthly HOA Dues</label>
+            <select id="hoa_preference" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm">
+              <option value="No HOA">No HOA</option>
+              <option value="$100 - $500 / month" selected>$100 - $500 / month</option>
+              <option value="$600 - $1,000 / month">$600 - $1,000 / month</option>
+              <option value="Flexible for full amenities">Flexible for full amenities</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- STEP 4: Home Specs, Architecture & Parking -->
+        <div id="step4" class="step-content hidden fade-in space-y-5">
+          <div class="border-b border-slate-100 pb-3">
+            <h2 class="text-xl font-bold text-slate-900">Home Specs, Architecture & Parking</h2>
+            <p class="text-xs sm:text-sm text-slate-500 mt-0.5">What type of structure and design fits your vision?</p>
+          </div>
+
+          <!-- Property Types -->
+          <div>
+            <label class="block text-xs sm:text-sm font-semibold text-slate-700 mb-2">Preferred Property Types (Select multiple)</label>
+            <div class="flex flex-wrap gap-2" data-chip-group="home_type">
+              <button type="button" class="chip-btn selected px-3.5 py-2 text-xs font-semibold border border-slate-200 rounded-xl bg-slate-50 text-slate-700 hover:bg-slate-100 transition" data-val="Single-Family">Single-Family</button>
+              <button type="button" class="chip-btn px-3.5 py-2 text-xs font-semibold border border-slate-200 rounded-xl bg-slate-50 text-slate-700 hover:bg-slate-100 transition" data-val="Condo">Condo</button>
+              <button type="button" class="chip-btn px-3.5 py-2 text-xs font-semibold border border-slate-200 rounded-xl bg-slate-50 text-slate-700 hover:bg-slate-100 transition" data-val="Townhome">Townhome</button>
+              <button type="button" class="chip-btn px-3.5 py-2 text-xs font-semibold border border-slate-200 rounded-xl bg-slate-50 text-slate-700 hover:bg-slate-100 transition" data-val="Duplex">Duplex</button>
+              <button type="button" class="chip-btn px-3.5 py-2 text-xs font-semibold border border-slate-200 rounded-xl bg-slate-50 text-slate-700 hover:bg-slate-100 transition" data-val="Triplex">Triplex</button>
+              <button type="button" class="chip-btn px-3.5 py-2 text-xs font-semibold border border-slate-200 rounded-xl bg-slate-50 text-slate-700 hover:bg-slate-100 transition" data-val="Fourplex">Fourplex</button>
+            </div>
+          </div>
+
+          <!-- Beds & Baths -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-xs sm:text-sm font-semibold text-slate-700 mb-1" for="min_beds">Minimum Bedrooms</label>
+              <select id="min_beds" class="w-full px-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm">
+                <option value="1+">1+</option>
+                <option value="2+">2+</option>
+                <option value="3+" selected>3+</option>
+                <option value="4+">4+</option>
+                <option value="5+">5+</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-xs sm:text-sm font-semibold text-slate-700 mb-1" for="min_baths">Minimum Bathrooms</label>
+              <select id="min_baths" class="w-full px-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm">
+                <option value="1+">1+</option>
+                <option value="1.5+">1.5+</option>
+                <option value="2+" selected>2+</option>
+                <option value="2.5+">2.5+</option>
+                <option value="3+">3+</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Architectural Styles -->
+          <div>
+            <label class="block text-xs sm:text-sm font-semibold text-slate-700 mb-2">Architectural Style Preferences</label>
+            <div class="flex flex-wrap gap-2" data-chip-group="arch_styles">
+              <button type="button" class="chip-btn selected px-3 py-1.5 text-xs font-medium border border-slate-200 rounded-lg bg-slate-50 text-slate-700 hover:bg-slate-100 transition" data-val="Spanish / Mediterranean">Spanish / Mediterranean</button>
+              <button type="button" class="chip-btn selected px-3 py-1.5 text-xs font-medium border border-slate-200 rounded-lg bg-slate-50 text-slate-700 hover:bg-slate-100 transition" data-val="Craftsman">Craftsman</button>
+              <button type="button" class="chip-btn px-3 py-1.5 text-xs font-medium border border-slate-200 rounded-lg bg-slate-50 text-slate-700 hover:bg-slate-100 transition" data-val="Mid-Century Modern">Mid-Century Modern</button>
+              <button type="button" class="chip-btn selected px-3 py-1.5 text-xs font-medium border border-slate-200 rounded-lg bg-slate-50 text-slate-700 hover:bg-slate-100 transition" data-val="Modern / Contemporary">Modern / Contemporary</button>
+              <button type="button" class="chip-btn px-3 py-1.5 text-xs font-medium border border-slate-200 rounded-lg bg-slate-50 text-slate-700 hover:bg-slate-100 transition" data-val="Ranch">Ranch</button>
+              <button type="button" class="chip-btn px-3 py-1.5 text-xs font-medium border border-slate-200 rounded-lg bg-slate-50 text-slate-700 hover:bg-slate-100 transition" data-val="Cape Cod / Colonial">Cape Cod / Colonial</button>
+              <button type="button" class="chip-btn px-3 py-1.5 text-xs font-medium border border-slate-200 rounded-lg bg-slate-50 text-slate-700 hover:bg-slate-100 transition" data-val="Tudor">Tudor</button>
+              <button type="button" class="chip-btn px-3 py-1.5 text-xs font-medium border border-slate-200 rounded-lg bg-slate-50 text-slate-700 hover:bg-slate-100 transition" data-val="Victorian">Victorian</button>
+            </div>
+          </div>
+
+          <!-- Parking Preferences -->
+          <div>
+            <label class="block text-xs sm:text-sm font-semibold text-slate-700 mb-2">Parking & Garage Preferences</label>
+            <div class="flex flex-wrap gap-2" data-chip-group="parking_pref">
+              <button type="button" class="chip-btn selected px-3 py-1.5 text-xs font-medium border border-slate-200 rounded-lg bg-slate-50 text-slate-700 hover:bg-slate-100 transition" data-val="Attached Garage">Attached Garage</button>
+              <button type="button" class="chip-btn px-3 py-1.5 text-xs font-medium border border-slate-200 rounded-lg bg-slate-50 text-slate-700 hover:bg-slate-100 transition" data-val="Detached Garage">Detached Garage</button>
+              <button type="button" class="chip-btn px-3 py-1.5 text-xs font-medium border border-slate-200 rounded-lg bg-slate-50 text-slate-700 hover:bg-slate-100 transition" data-val="Carport">Carport</button>
+              <button type="button" class="chip-btn selected px-3 py-1.5 text-xs font-medium border border-slate-200 rounded-lg bg-slate-50 text-slate-700 hover:bg-slate-100 transition" data-val="Garage with EV Charger / Ready">Garage with EV Charger / Ready</button>
+              <button type="button" class="chip-btn px-3 py-1.5 text-xs font-medium border border-slate-200 rounded-lg bg-slate-50 text-slate-700 hover:bg-slate-100 transition" data-val="Street / Driveway Parking Only">Street / Driveway Parking Only</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- STEP 5: Must-Haves & Dealbreakers -->
+        <div id="step5" class="step-content hidden fade-in space-y-5">
+          <div class="border-b border-slate-100 pb-3">
+            <h2 class="text-xl font-bold text-slate-900">Must-Haves & Non-Negotiables</h2>
+            <p class="text-xs sm:text-sm text-slate-500 mt-0.5">What makes a home an instant YES or NO for you?</p>
+          </div>
+
+          <div>
+            <label class="block text-xs sm:text-sm font-semibold text-emerald-700 mb-1 flex items-center gap-1.5" for="must_haves">
+              <i class="fa-solid fa-circle-check"></i> Top 3 Must-Have Features
+            </label>
+            <p class="text-[11px] text-slate-400 mb-1">(e.g., Fenced yard for dog, updated kitchen, central AC, primary suite downstairs...)</p>
+            <textarea id="must_haves" rows="3" placeholder="e.g., Open kitchen layout, private yard, central AC..." 
+              class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:ring-emerald-500 text-xs sm:text-sm"></textarea>
+          </div>
+
+          <div>
+            <label class="block text-xs sm:text-sm font-semibold text-rose-700 mb-1 flex items-center gap-1.5" for="dealbreakers">
+              <i class="fa-solid fa-circle-xmark"></i> Top 3 Home Dealbreakers
+            </label>
+            <p class="text-[11px] text-slate-400 mb-1">(e.g., Major fixer-upper, steep stairs, no yard, heavy road noise...)</p>
+            <textarea id="dealbreakers" rows="3" placeholder="e.g., Busy street noise, flood zones, lack of natural light..." 
+              class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:ring-rose-500 text-xs sm:text-sm"></textarea>
+          </div>
+        </div>
+
+        <!-- STEP 6: Lifestyle & Motivation -->
+        <div id="step6" class="step-content hidden fade-in space-y-5">
+          <div class="border-b border-slate-100 pb-3">
+            <h2 class="text-xl font-bold text-slate-900">Lifestyle & Motivation</h2>
+            <p class="text-xs sm:text-sm text-slate-500 mt-0.5">Understanding how you plan to live in your new home.</p>
+          </div>
+
+          <div>
+            <label class="block text-xs sm:text-sm font-semibold text-slate-700 mb-1" for="move_motivation">Primary Motivation for Moving</label>
+            <select id="move_motivation" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm">
+              <option value="First-Time Home Buyer" selected>First-Time Home Buyer</option>
+              <option value="Upsizing / More Space">Upsizing / More Space</option>
+              <option value="Downsizing">Downsizing</option>
+              <option value="Relocating to San Diego">Relocating to San Diego</option>
+              <option value="School District Upgrade">School District Upgrade</option>
+              <option value="Investment / Multi-Family Property">Investment / Multi-Family Property</option>
+            </select>
+          </div>
+
+          <div>
+            <label class="block text-xs sm:text-sm font-semibold text-slate-700 mb-1" for="daily_lifestyle">How will you use this home day-to-day?</label>
+            <p class="text-[11px] text-slate-400 mb-1.5">(Work from home setup, hosting weekend dinners, outdoor gardening, room for pets)</p>
+            <textarea id="daily_lifestyle" rows="3" placeholder="e.g., Dedicated quiet office space for two remote workers, fenced yard for large dog..." 
+              class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs sm:text-sm"></textarea>
+          </div>
+        </div>
+
+        <!-- STEP 7: Strategy & Communication -->
+        <div id="step7" class="step-content hidden fade-in space-y-5">
+          <div class="border-b border-slate-100 pb-3">
+            <h2 class="text-xl font-bold text-slate-900">Strategy & Communication</h2>
+            <p class="text-xs sm:text-sm text-slate-500 mt-0.5">Fine-tuning how we work together to locate options.</p>
+          </div>
+
+          <div>
+            <label class="block text-xs sm:text-sm font-semibold text-slate-700 mb-1" for="premarket_pref">Include Off-Market / Pre-Market Opportunities?</label>
+            <select id="premarket_pref" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm">
+              <option value="Yes, include pre-market properties" selected>Yes, include pre-market properties</option>
+              <option value="Current listings only">Current listings only</option>
+            </select>
+          </div>
+
+          <div>
+            <label class="block text-xs sm:text-sm font-semibold text-slate-700 mb-1" for="update_freq">Preferred Communication Frequency</label>
+            <select id="update_freq" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm">
+              <option value="Instant alerts as properties pop up">Instant alerts as properties pop up</option>
+              <option value="Weekly curated digest" selected>Weekly curated digest</option>
+              <option value="Only when exact top-tier matches hit">Only when exact top-tier matches hit</option>
+            </select>
+          </div>
+
+          <div>
+            <label class="block text-xs sm:text-sm font-semibold text-slate-700 mb-1" for="open_house_habit">Open House Weekend Habits</label>
+            <select id="open_house_habit" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm">
+              <option value="I will let Emiliano pre-register me before visiting open houses" selected>I will let Emiliano pre-register me before visiting open houses</option>
+              <option value="I prefer setting up private tours together exclusively">I prefer setting up private tours together exclusively</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- STEP 8: Summary & Dual Routing Submission -->
+        <div id="step8" class="step-content hidden fade-in space-y-5">
+          <div class="text-center pb-2">
+            <div class="w-12 h-12 bg-emerald-50 text-emerald-600 rounded-full flex items-center justify-center mx-auto mb-2 text-xl border border-emerald-100">
+              <i class="fa-solid fa-clipboard-check"></i>
+            </div>
+            <!-- Dynamic Header: Formatted Summary for [Client First Name] -->
+            <h2 id="dynamicSummaryTitle" class="text-xl sm:text-2xl font-bold text-slate-900">Formatted Summary</h2>
+            <p class="text-xs sm:text-sm text-slate-500 mt-0.5">Your discovery details are formatted and ready to deliver to Emiliano.</p>
+          </div>
+
+          <!-- Summary Payload Card -->
+          <div class="space-y-1.5">
+            <div class="flex justify-between items-center">
+              <label class="block text-[11px] font-bold text-slate-400 uppercase tracking-wider">Discovery Summary Payload</label>
+              <button type="button" onclick="copySummaryText()" class="text-xs text-brand-600 hover:text-brand-800 font-semibold flex items-center gap-1">
+                <i class="fa-regular fa-copy"></i> Copy Text
+              </button>
+            </div>
+            <div id="summaryOutput" class="w-full h-64 p-4 bg-slate-900 text-slate-100 rounded-xl text-xs font-mono overflow-y-auto custom-scrollbar leading-relaxed whitespace-pre-wrap border border-slate-800 shadow-inner"></div>
+          </div>
+
+          <!-- Main Action Button -->
+          <div class="pt-3">
+            <button type="button" onclick="sendToEmilianoAndCRM()" class="w-full py-4 bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-base sm:text-lg rounded-2xl shadow-xl hover:shadow-2xl hover:opacity-95 transition flex items-center justify-center gap-3">
+              <i class="fa-solid fa-paper-plane text-lg"></i> Send Wishlist to Emiliano
+            </button>
+            <p class="text-[11px] text-slate-400 text-center mt-2">Triggers automatic email delivery to Emiliano & CRM integration</p>
+          </div>
+        </div>
+
+        <!-- Navigation Controls -->
+        <div id="nav-buttons" class="flex items-center justify-between pt-5 border-t border-slate-100 mt-6">
+          <button type="button" id="prevBtn" onclick="changeStep(-1)" class="hidden px-4 py-2.5 rounded-xl border border-slate-200 text-slate-600 font-semibold text-xs sm:text-sm hover:bg-slate-50 transition flex items-center gap-2">
+            <i class="fa-solid fa-arrow-left text-xs"></i> Back
+          </button>
+          
+          <button type="button" id="nextBtn" onclick="changeStep(1)" class="ml-auto px-6 py-2.5 rounded-xl bg-slate-900 text-white font-semibold text-xs sm:text-sm hover:bg-slate-800 shadow-md transition flex items-center gap-2">
+            Next Section <i class="fa-solid fa-arrow-right text-xs"></i>
+          </button>
+        </div>
+
+      </form>
+    </div>
+
+  </main>
+
+  <footer class="bg-white border-t border-slate-200 py-4 text-center text-xs text-slate-400">
+    <p>© 2026 Home Buying Discovery • Prepared for Emiliano</p>
+  </footer>
+
+  <script>
+    // Configuration Variables for Email Delivery
+    const EMILIANO_PRIMARY_EMAIL = "emiliano@yourdomain.com"; 
+    const BOLDTRAIL_DROPBOX_EMAIL = "emiliano-lead-dropbox@boldtrail.com"; 
+
+    let currentStep = 1;
+    const totalSteps = 8;
+
+    // Multi-select chip button toggling logic
+    document.querySelectorAll('[data-chip-group]').forEach(group => {
+      group.querySelectorAll('.chip-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          btn.classList.toggle('selected');
+        });
+      });
+    });
+
+    function getSelectedChips(groupName) {
+      const group = document.querySelector(`[data-chip-group="${groupName}"]`);
+      if (!group) return 'None specified';
+      const selected = Array.from(group.querySelectorAll('.chip-btn.selected')).map(b => b.getAttribute('data-val'));
+      return selected.length > 0 ? selected.join(', ') : 'None specified';
+    }
+
+    function updateStepUI() {
+      for (let i = 1; i <= totalSteps; i++) {
+        document.getElementById(`step${i}`).classList.add('hidden');
+      }
+      
+      document.getElementById(`step${currentStep}`).classList.remove('hidden');
+
+      const percent = Math.round((currentStep / totalSteps) * 100);
+      document.getElementById('progress-bar').style.width = `${percent}%`;
+      document.getElementById('step-num').innerText = currentStep;
+
+      const prevBtn = document.getElementById('prevBtn');
+      const nextBtn = document.getElementById('nextBtn');
+      const navButtons = document.getElementById('nav-buttons');
+
+      prevBtn.classList.toggle('hidden', currentStep === 1);
+
+      if (currentStep === totalSteps) {
+        nextBtn.classList.add('hidden');
+        generateSummary();
+      } else {
+        nextBtn.classList.remove('hidden');
+      }
+      
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function changeStep(delta) {
+      if (delta === 1 && !validateCurrentStep()) return;
+      currentStep += delta;
+      if (currentStep < 1) currentStep = 1;
+      if (currentStep > totalSteps) currentStep = totalSteps;
+      updateStepUI();
+    }
+
+    function validateCurrentStep() {
+      if (currentStep === 1) {
+        const name = document.getElementById('buyer_name').value.trim();
+        const phone = document.getElementById('buyer_phone').value.trim();
+        const email = document.getElementById('buyer_email').value.trim();
+
+        if (!name || !phone || !email) {
+          alert("Please complete your Full Name, Phone Number, and Email Address to proceed.");
+          return false;
+        }
+      }
+      return true;
+    }
+
+    function generateSummary() {
+      const fullName = document.getElementById('buyer_name').value.trim() || 'Client';
+      const firstName = fullName.split(' ')[0] || fullName;
+      
+      // Dynamic header: "Formatted Summary for [Client First Name]"
+      document.getElementById('dynamicSummaryTitle').innerText = `Formatted Summary for ${firstName}`;
+
+      let output = `========================================\n`;
+      output += `HOME BUYING DISCOVERY WITH EMILIANO\n`;
+      output += `========================================\n\n`;
+      
+      output += `[BASIC DETAILS]\n`;
+      output += `Full Name: ${fullName}\n`;
+      output += `Best Phone: ${document.getElementById('buyer_phone').value.trim()}\n`;
+      output += `Best Email: ${document.getElementById('buyer_email').value.trim()}\n`;
+      output += `About The Buyer: ${document.getElementById('buyer_bio').value.trim() || 'Not specified'}\n\n`;
+
+      output += `[TIMELINE & SITUATION]\n`;
+      output += `Timeline: ${document.getElementById('timeline').value}\n`;
+      output += `Housing Status: ${document.getElementById('housing_status').value}\n`;
+      output += `Lease Expiration: ${document.getElementById('lease_exp').value.trim() || 'N/A'}\n`;
+      output += `Lender Status: ${document.getElementById('lender_status').value}\n`;
+      output += `Monthly Payment Range: ${document.getElementById('monthly_budget').value.trim() || 'Flexible'}\n`;
+      output += `Price Range: ${document.getElementById('price_range').value.trim() || 'Flexible'}\n\n`;
+
+      output += `[LOCATION & HOA PREFERENCES]\n`;
+      output += `Top Target Neighborhoods: ${document.getElementById('target_locations').value.trim() || 'Not specified'}\n`;
+      output += `Dealbreakers / Areas to Avoid: ${document.getElementById('location_dealbreakers').value.trim() || 'None'}\n`;
+      output += `Max Monthly HOA Ceiling: ${document.getElementById('hoa_preference').value}\n\n`;
+
+      output += `[HOME SPECIFICATIONS & STYLE]\n`;
+      output += `Property Types: ${getSelectedChips('home_type')}\n`;
+      output += `Min Bedrooms: ${document.getElementById('min_beds').value} | Min Bathrooms: ${document.getElementById('min_baths').value}\n`;
+      output += `Architectural Styles: ${getSelectedChips('arch_styles')}\n`;
+      output += `Parking Preferences: ${getSelectedChips('parking_pref')}\n\n`;
+
+      output += `[MUST-HAVES & DEALBREAKERS]\n`;
+      output += `Must-Haves: ${document.getElementById('must_haves').value.trim() || 'None specified'}\n`;
+      output += `Dealbreakers: ${document.getElementById('dealbreakers').value.trim() || 'None specified'}\n\n`;
+
+      output += `[LIFESTYLE & MOTIVATION]\n`;
+      output += `Primary Move Driver: ${document.getElementById('move_motivation').value}\n`;
+      output += `Daily Lifestyle Needs: ${document.getElementById('daily_lifestyle').value.trim() || 'None specified'}\n\n`;
+
+      output += `[STRATEGY & COMMUNICATION]\n`;
+      output += `Pre-Market Listings: ${document.getElementById('premarket_pref').value}\n`;
+      output += `Update Frequency: ${document.getElementById('update_freq').value}\n`;
+      output += `Open House Habits: ${document.getElementById('open_house_habit').value}\n\n`;
+      output += `#BuyerDiscovery #LeadSync`;
+
+      document.getElementById('summaryOutput').innerText = output;
+    }
+
+    function copySummaryText() {
+      const summaryText = document.getElementById('summaryOutput').innerText;
+      navigator.clipboard.writeText(summaryText).then(() => {
+        alert("Summary payload copied to clipboard!");
+      }).catch(() => {
+        // Fallback for clipboard copy
+        const textarea = document.createElement('textarea');
+        textarea.value = summaryText;
+        document.body.appendChild(textarea);
+        textarea.select();
+        document.execCommand('copy');
+        document.body.removeChild(textarea);
+        alert("Summary payload copied to clipboard!");
+      });
+    }
+
+    function sendToEmilianoAndCRM() {
+      const name = document.getElementById('buyer_name').value.trim() || 'New Lead';
+      const body = encodeURIComponent(document.getElementById('summaryOutput').innerText);
+      const subject = encodeURIComponent(`New Buyer Home Discovery - ${name}`);
+      
+      const recipients = `${EMILIANO_PRIMARY_EMAIL}?cc=${BOLDTRAIL_DROPBOX_EMAIL}`;
+
+      window.location.href = `mailto:${recipients}&subject=${subject}&body=${body}`;
+    }
+  </script>
+</body>
+</html>
